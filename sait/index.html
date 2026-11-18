@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sait Mods | Ваш Хаб для Модов</title>
+    <!-- Подключаем наш стиль CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Используем шрифт Google Fonts для геймерской эстетики -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. HEADER / NAVIGATION BAR -->
+    <header class="main-nav container">
+        <div class="logo">💾 Sait Mods</div>
+        <nav class="nav-links">
+            <a href="#featured-games">Игры</a>
+            <a href="#">Моды</a>
+            <a href="#">Авторы</a>
+            <a href="#">Новости</a>
+        </nav>
+        <div class="user-controls">
+            <input type="search" placeholder="Поиск модов, игр...">
+            <button class="btn btn-primary">Войти / Регистрация</button>
+        </div>
+    </header>
+
+    <!-- 2. MAIN HERO BANNER -->
+    <section class="hero-banner container">
+        <h1>Самые свежие и популярные моды года</h1>
+        <p class="subtitle">Обнаружите, как преобразить ваши любимые миры с помощью тысяч модификаций.</p>
+        <div class="search-bar-container">
+            <input type="text" placeholder="Введите название игры или ключевое слово...">
+            <button class="btn btn-secondary">Искать</button>
+        </div>
+    </section>
+
+    <!-- 3. MAIN CONTENT GRID (Sidebar + Content) -->
+    <div class="container main-grid grid-layout">
+
+        <!-- Боковая панель / Категории игр (Sidebar) -->
+        <aside class="sidebar">
+            <h3 class="sidebar-title">🔥 Популярные игры</h3>
+            <ul class="game-list">
+                <li><a href="#">Skyrim Special Edition</a></li>
+                <li><a href="#">Cyberpunk 2077</a></li>
+                <li><a href="#">Fallout 4</a></li>
+                <li><a href="#">The Witcher 3</a></li>
+                <li><a href="#">GTA V</a></li>
+            </ul>
+
+            <h3 class="sidebar-title">🔧 Категории модов</h3>
+            <ul class="category-list">
+                <li><a href="#">Графика (Graphics)</a></li>
+                <li><a href="#">Геймплей (Gameplay)</a></li>
+                <li><a href="#">Исправления (Fixes)</a></li>
+                <li><a href="#">Инструменты (Tools)</a></li>
+            </ul>
+
+        </aside>
+
+        <!-- Основной контент: Список модов -->
+        <main class="mod-list">
+            <h2>Рекомендованные Моды</h2>
+
+            <!-- КАРТОЧКА МОДА 1 -->
+            <article class="mod-card" data-game="skyrim">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/300x200?text=Mod+Cover" alt="Обложка мода">
+                    <span class="tag tag-hot">⭐ Хит</span>
+                </div>
+                <div class="card-info">
+                    <h3>Realism Overhaul Pack</h3>
+                    <p class="game-name">Игра: Skyrim Special Edition</p>
+                    <div class="mod-meta">
+                        <span>👤 Автор: UserDev_99</span>
+                        <span>⬇️ 12.5k скачиваний</span>
+                        <span>⭐ 4.8/5 (1,200 отзывов)</span>
+                    </div>
+                    <p>Кардинально меняет механику выживания и добавляет элементы реализма в ваш мир.</p>
+                    <div class="card-actions">
+                         <span class="version">Версия 3.1</span>
+                        <button class="btn btn-primary mod-download-btn">Скачать Мод</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- КАРТОЧКА МОДА 2 -->
+            <article class="mod-card" data-game="cyberpunk">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/300x200?text=Mod+Cover+2" alt="Обложка мода 2">
+                    <span class="tag tag-new">✨ Новинка</span>
+                </div>
+                <div class="card-info">
+                    <h3>Neon City Expansion Pack</h3>
+                    <p class="game-name">Игра: Cyberpunk 2077</p>
+                    <div class="mod-meta">
+                        <span>👤 Автор: NightRunner</span>
+                        <span>⬇️ 5.1k скачиваний</span>
+                        <span>⭐ 4.5/5 (890 отзывов)</span>
+                    </div>
+                    <p>Добавляет новые районы, персонажей и квесты в крупнейший мегаполис.</p>
+                     <div class="card-actions">
+                         <span class="version">Версия Beta 1.2</span>
+                        <button class="btn btn-primary mod-download-btn">Скачать Мод</button>
+                    </div>
+                </div>
+            </article>
+
+             <!-- КАРТОЧКА МОДА 3 (для заполнения сетки) -->
+            <article class="mod-card" data-game="fallout">
+                <div class="card-image">
+                    <img src="https://via.placeholder.com/300x200?text=Mod+Cover+3" alt="Обложка мода 3">
+                    <!-- Нет специального тега -->
+                </div>
+                <div class="card-info">
+                    <h3>Advanced Weather System</h3>
+                    <p class="game-name">Игра: Fallout 4</p>
+                    <div class="mod-meta">
+                        <span>👤 Автор: SkyGuard</span>
+                        <span>⬇️ 8.9k скачиваний</span>
+                        <span>⭐ 5.0/5 (2,100 отзывов)</span>
+                    </div>
+                    <p>Система погоды с полной симуляцией климата и времен года.</p>
+                     <div class="card-actions">
+                         <span class="version">Версия 4.0</span>
+                        <button class="btn btn-primary mod-download-btn">Скачать Мод</button>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2023 Sait Mods Portal | Создано для демонстрации макета Nexus Mods.</p>
+            <div class="social-links">
+                <a href="#">Discord</a> | <a href="#">Twitter</a> | <a href="#">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
