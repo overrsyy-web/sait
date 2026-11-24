@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ mod.mod_name }} — Nexus Mods{% endblock %}
+
+{% block content %}
+<div class="container mod-page">
+    
+    <!-- Картинка мода -->
+    {% if mod.image_url %}
+        <div style="margin-bottom: 24px;">
+            {% if mod.image_url.startswith('http') %}
+                <img src="{{ mod.image_url }}" alt="{{ mod.mod_name }}" style="width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/' + mod.image_url) }}" alt="{{ mod.mod_name }}" style="width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);">
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="mod-info">
+        <div class="mod-header">
+            <div class="mod-title-row">
+                <h1>{{ mod.mod_name }}</h1>
+                {% if mod.Активен %}
+                    <span class="status-badge active">Активен</span>
+                {% else %}
+                    <span class="status-badge inactive">Скрыт</span>
+                {% endif %}
+            </div>
+            <p class="mod-author">Автор: <strong>{{ mod.author_name }}</strong> · Игра: <strong>{{ mod.game_name }}</strong></p>
+        </div>
+
+        <div class="mod-stats">
+            <div class="stat-box"><span>⭐ Рейтинг</span><strong>{{ rating }} / 5</strong></div>
+            <div class="stat-box"><span>⬇️ Скачиваний</span><strong>{{ mod.downloads }}</strong></div>
+            <div class="stat-box"><span>📦 Размер</span><strong>{{ mod.size }} КБ</strong></div>
+            <div class="stat-box"><span>🗓 Опубликован</span><strong>{{ mod.Дата_Публикации|dt }}</strong></div>
+        </div>
+
+        <div class="mod-description">
+            <h3>Описание</h3>
+            <p>Версия мода: <strong>v{{ mod.version }}</strong>. Категория: <strong>{{ mod.category_name }}</strong>.</p>
+            <p>Этот мод добавляет новые возможности и улучшения в игру.</p>
+        </div>
+
+        <div class="mod-files">
+            <h3>Файлы для скачивания</h3>
+            {% for f in files %}
+                <div class="file-row">
+                    <div class="file-name">📄 Основной файл (v{{ mod.version }})</div>
+                    <a href="{{ url_for('download', mod_id=mod.mod_id, file_id=f.file_id) }}" class="btn btn--accent">Скачать</a>
+                </div>
+            {% else %}
+                <p class="muted">Файлы ещё не загружены автором.</p>
+            {% endfor %}
+        </div>
+
+        <div class="mod-reviews">
+            <h3>Отзывы ({{ reviews|length }})</h3>
+            
+            {% if user %}
+                <form method="post" action="{{ url_for('add_review', mod_id=mod.mod_id) }}" class="review-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <select name="rating" required>
+                        <option value="5">5 звёзд</option>
+                        <option value="4">4 звезды</option>
+                        <option value="3">3 звезды</option>
+                        <option value="2">2 звезды</option>
+                        <option value="1">1 звезда</option>
+                    </select>
+                    <button type="submit" class="btn btn--ghost">Оставить отзыв</button>
+                </form>
+            {% else %}
+                <p class="muted"><a href="{{ url_for('login') }}">Войдите</a>, чтобы оставить отзыв.</p>
+            {% endif %}
+
+            <div class="reviews-list">
+                {% for r in reviews %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <strong>{{ r.user_name }}</strong>
+                            <span class="stars">{{ '⭐' * r.rating }}</span>
+                            <span class="date">{{ r.created_at|dt }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="muted">Отзывов пока нет. Будьте первым!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nexus Mods{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <a href="{{ url_for('catalog') }}" class="logo">◆ NEXUS<span>MODS</span></a>
+            
+            <nav class="mainnav">
+                <a href="{{ url_for('catalog') }}">Моды</a>
+                <a href="#">Игры</a>
+                <a href="#">Новости</a>
+            </nav>
+
+            <div class="topbar__actions">
+                <form method="get" action="{{ url_for('catalog') }}" class="search-form">
+                    <input type="search" name="q" placeholder="Поиск модов..." value="{{ request.args.get('q', '') }}">
+                </form>
+                
+                {% if user %}
+                    <a href="{{ url_for('profile') }}" class="btn btn--ghost" style="display: flex; align-items: center;">
+                        {{ user.login }}
+                        <span class="role-badge role-{{ user.role_name|lower }}">{{ user.role_name }}</span>
+                    </a>
+                    {% if user.role_name == 'Администратор' %}
+                        <a href="{{ url_for('admin') }}" class="btn btn--accent">Админка</a>
+                    {% endif %}
+                    <form method="post" action="{{ url_for('logout') }}" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn--ghost">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn--accent">Войти</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container flash-stack">
+                {% for cat, msg in messages %}
+                    <div class="flash flash--{{ cat }}">{{ msg }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>&copy; 2024 Nexus Mods Clone. Сайт создан для демонстрации.</p>
+            <div class="footer__links">
+                <a href="#">Поддержка</a>
+                <a href="#">Конфиденциальность</a>
+                <a href="#">Условия</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
