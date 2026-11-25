@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{{ l.item_name }} — SKINMARKET{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top:40px">
+    <div class="main-grid">
+        <div class="card-image" style="flex:0 0 480px">
+            {% if l.image_url %}
+                <img src="{{ l.image_url }}" alt="{{ l.item_name }}">
+            {% else %}
+                <div class="no-image" style="height:360px;font-size:4em">{{ l.item_name|initials }}</div>
+            {% endif %}
+        </div>
+
+        <div class="card-info">
+            <h1>{{ l.item_name }}</h1>
+            <p class="game-name">{{ l.game_name }} · {{ l.category_name }} ·
+                <span class="rarity-{{ l.rarity_name|rarity_cls }}">{{ l.rarity_name }}</span></p>
+
+            {% if rating %}
+                <p>⭐ {{ rating }} / 5 — {{ reviews_count }} отзывов</p>
+            {% else %}
+                <p>Отзывов пока нет</p>
+            {% endif %}
+
+            <h2 style="margin:20px 0">{{ l.price|money }}</h2>
+            <p>В наличии: <strong>{{ l.qty }}</strong> шт.</p>
+            <p>Продавец: <strong>{{ l.seller_login }}</strong></p>
+
+            {% if l.item_desc %}<p style="margin:20px 0">{{ l.item_desc }}</p>{% endif %}
+
+            {% if available and user and user.user_id != l.seller_id %}
+                <form method="post" action="{{ url_for('buy', listing_id=l.listing_id) }}" class="buy-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <label>Количество:
+                        <input type="number" name="qty" value="1" min="1" max="{{ l.qty }}" style="width:80px">
+                    </label>
+                    <button type="submit" class="btn btn-primary">Купить сейчас</button>
+                </form>
+                <form method="post" action="{{ url_for('cart_add', listing_id=l.listing_id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="qty" value="1">
+                    <button type="submit" class="btn btn-secondary">В корзину</button>
+                </form>
+            {% elif not user %}
+                <p><a href="{{ url_for('login', next=request.path) }}" class="btn btn-primary">Войдите, чтобы купить</a></p>
+            {% elif user.user_id == l.seller_id %}
+                <p>Это ваш собственный лот.</p>
+            {% else %}
+                <p class="flash flash-error">Объявление недоступно.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if reviews %}
+        <section style="margin-top:60px">
+            <h2>Отзывы продавца</h2>
+            {% for r in reviews %}
+                <div class="mod-card" style="flex-direction:column;padding:15px">
+                    <div class="mod-meta">
+                        <span>👤 {{ r.buyer_login }}</span>
+                        <span>⭐ {{ r.rating }}/5</span>
+                        <span>🗓 {{ r.created_at|dt }}</span>
+                    </div>
+                    {% if r.review_text %}<p>{{ r.review_text }}</p>{% endif %}
+                </div>
+            {% endfor %}
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

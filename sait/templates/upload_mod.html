@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Загрузка мода — Nexus Mods{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 40px; margin-bottom: 60px;">
+    <h1>Загрузить новый мод</h1>
+    <p class="muted" style="margin-bottom: 20px;">Заполните информацию о вашем моде. Файл и обложка загрузятся на сервер автоматически.</p>
+
+    <form method="post" enctype="multipart/form-data" style="background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid var(--border);">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Название мода *
+                <input type="text" name="title" required placeholder="Например: Realism Overhaul" style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 15px;">
+            </label>
+            
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Версия
+                <input type="text" name="version" value="1.0" placeholder="1.0" style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 15px;">
+            </label>
+
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Игра *
+                <select name="game_id" required style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 15px;">
+                    <option value="">-- Выберите игру --</option>
+                    {% for g in games %}
+                        <option value="{{ g.id_game }}">{{ g.Название }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Категория *
+                <select name="cat_id" required style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 15px;">
+                    <option value="">-- Выберите категорию --</option>
+                    {% for c in categories %}
+                        <option value="{{ c.id_cat }}">{{ c.Название }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Обложка (картинка)
+                <input type="file" name="image" accept="image/*" style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 14px;">
+            </label>
+
+            <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted);">
+                Файл мода (ZIP, RAR, 7Z)
+                <input type="file" name="mod_file" accept=".zip,.rar,.7z,.tar,.gz" style="padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; font-size: 14px;">
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn--accent" style="margin-top: 30px; width: 100%; font-size: 16px; padding: 12px;">
+            Опубликовать мод
+        </button>
+    </form>
+</div>
+{% endblock %}
